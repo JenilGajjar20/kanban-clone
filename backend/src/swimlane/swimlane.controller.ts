@@ -8,11 +8,13 @@ import {
   Delete,
   UseGuards,
   Request,
+  Put,
 } from '@nestjs/common';
 import { SwimlaneService } from './swimlane.service';
 import { CreateSwimlaneDto } from './dto/create-swimlane.dto';
 import { UpdateSwimlaneDto } from './dto/update-swimlane.dto';
 import { AuthGuard, PayloadRequest } from 'src/auth/auth/auth.guard';
+import { ReorderSwimlaneDto } from './dto/reorder-swimlane.dto';
 
 @Controller('swimlane')
 export class SwimlaneController {
@@ -25,6 +27,18 @@ export class SwimlaneController {
     @Request() req: PayloadRequest,
   ) {
     return this.swimlaneService.create(createSwimlaneDto, req.user.id);
+  }
+
+  @Put('update-order')
+  @UseGuards(AuthGuard)
+  updateOrder(
+    @Body() reorderSwimlanes: ReorderSwimlaneDto,
+    @Request() req: PayloadRequest,
+  ) {
+    return this.swimlaneService.updateSwimlaneOrders(
+      reorderSwimlanes,
+      req.user.id,
+    );
   }
 
   @Get('/board/:boardId')

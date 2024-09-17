@@ -8,11 +8,13 @@ import {
   Delete,
   UseGuards,
   Request,
+  Put,
 } from '@nestjs/common';
 import { CardService } from './card.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { AuthGuard, PayloadRequest } from 'src/auth/auth/auth.guard';
+import { ReorderCardDto } from './dto/reorder-cards.dto';
 
 @Controller('card')
 export class CardController {
@@ -22,6 +24,18 @@ export class CardController {
   @UseGuards(AuthGuard)
   create(@Body() createCardDto: CreateCardDto, @Request() req: PayloadRequest) {
     return this.cardService.create(createCardDto, req.user.id);
+  }
+
+  @Put('update-order')
+  @UseGuards(AuthGuard)
+  updateOrder(
+    @Body() reorderCards: ReorderCardDto,
+    @Request() req: PayloadRequest,
+  ) {
+    return this.cardService.updateCardOrdersAndSwimlanes(
+      reorderCards,
+      req.user.id,
+    );
   }
 
   @Get()

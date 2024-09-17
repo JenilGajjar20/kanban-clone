@@ -35,8 +35,14 @@ export class BoardController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  findOne(@Param('id') id: string, @Request() req: PayloadRequest) {
-    return this.boardService.findOne(+id, req.user.id);
+  async findOne(@Param('id') id: string, @Request() req: PayloadRequest) {
+    const board = await this.boardService.findOne(+id, req.user.id);
+    board.swimlanes = board.swimlanes.sort((a, b) => a.order - b.order);
+
+    board.swimlanes.forEach((swimlane) => {
+      swimlane.cards = swimlane.cards.sort((a, b) => a.order - b.order);
+    });
+    return board;
   }
 
   @Patch(':id')

@@ -5,12 +5,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Card } from './entities/card.entity';
 import { Repository } from 'typeorm';
 import { SwimlaneService } from 'src/swimlane/swimlane.service';
+import { UserService } from 'src/user/user.service';
+import { ReorderCardDto } from './dto/reorder-cards.dto';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
     private swimlaneService: SwimlaneService,
+    private userService: UserService,
   ) {}
 
   async create(createCardDto: CreateCardDto, userId: number) {
@@ -31,6 +34,20 @@ export class CardService {
     }
 
     return this.cardRepository.save(new_card);
+  }
+
+  async updateCardOrdersAndSwimlanes(reorder: ReorderCardDto, userId: number) {
+    await this.userService.isConnectedToBoard(userId, reorder.boardId);
+
+    const promises = reorder.cards.map((card) => {
+      this.cardRepository.update(card.id, {
+        order: card.order,
+        swimlaneId: card.swimlaneId,
+      });
+    });
+    await Promise.all(promises);
+
+    return true;
   }
 
   findAll() {

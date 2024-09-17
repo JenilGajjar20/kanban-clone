@@ -44,6 +44,17 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         padding: 20px;
         border-radius: 4px;
+        &__dragzone {
+          min-height: 50px;
+        }
+      }
+
+      &-card {
+        margin-bottom: 16px;
+        background-color: #eceaea;
+        padding: 16px;
+        border-radius: 4px;
+        cursor: pointer;
       }
 
       .add-swimlane-form {

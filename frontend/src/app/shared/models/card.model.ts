@@ -3,7 +3,7 @@ import { User } from './user.model';
 
 export interface Card {
   id: number;
-  title: string;
+  name: string;
   content: string;
   order: number;
   assigne?: User;

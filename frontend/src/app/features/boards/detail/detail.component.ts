@@ -7,6 +7,7 @@ import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import {
   NonNullableFormBuilder,
@@ -16,10 +17,11 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { SwimlanesService } from '../../../shared/services/swimlanes.service';
 import { Subject, switchMap } from 'rxjs';
-import {
-  CreateSwimlane,
-  Swimlane,
-} from '../../../shared/models/swimlane.model';
+import { Swimlane } from '../../../shared/models/swimlane.model';
+import { Card } from '../../../shared/models/card.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddCardComponent } from '../components/add-card/add-card.component';
+import { CardService } from '../../../shared/services/card.service';
 
 @Component({
   selector: 'app-detail',
@@ -36,8 +38,10 @@ import {
 })
 export class DetailComponent implements OnInit {
   private readonly boardService = inject(BoardService);
+  private readonly cardService = inject(CardService);
   private readonly swimlaneService = inject(SwimlanesService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly matDialog = inject(MatDialog);
 
   refetch$ = new Subject<void>();
   board = toSignal(
@@ -92,11 +96,79 @@ export class DetailComponent implements OnInit {
   }
 
   onSwimlaneChange($event: CdkDragDrop<any>): void {
-    console.log($event);
+    const _board = this.board();
+    if (!_board) return;
+
     moveItemInArray(
-      this.board()?.swimlanes || [],
+      _board.swimlanes || [],
       $event.previousIndex,
       $event.currentIndex
     );
+
+    this.boardService
+      .updateSwimlaneOrder({
+        boardId: _board.id,
+        items:
+          _board.swimlanes?.map((swimlane, index) => ({
+            id: swimlane.id,
+            order: index,
+          })) || [],
+      })
+      .subscribe(() => {
+        this.refetch$.next();
+      });
+
+    console.log('==>', this.board()?.swimlanes);
+  }
+
+  onCardChange($event: CdkDragDrop<any>, swimlane: Swimlane) {
+    console.log($event, swimlane);
+
+    if ($event.previousContainer === $event.container) {
+      moveItemInArray(
+        swimlane.cards || [],
+        $event.previousIndex,
+        $event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        $event.previousContainer.data,
+        $event.container.data,
+        $event.previousIndex,
+        $event.currentIndex
+      );
+    }
+
+    const _board = this.board();
+    if (!_board) return;
+
+    const cards: Card[] =
+      _board.swimlanes?.reduce((prev: Card[], current: Swimlane) => {
+        const cards =
+          current.cards?.map((card, index) => ({
+            ...card,
+            swimlaneId: current.id,
+            order: index,
+          })) || [];
+        return [...prev, ...cards];
+      }, []) || [];
+
+    this.cardService
+      .updateCardOrdersAndSwimlanes(_board.id, cards)
+      .subscribe(() => {
+        this.refetch$.next();
+      });
+  }
+
+  addCard(swimlane: Swimlane, card?: Card) {
+    this.matDialog
+      .open(AddCardComponent, {
+        width: '600px',
+        data: { swimlane: swimlane, boardId: swimlane.boardId, card },
+      })
+      .afterClosed()
+      .subscribe((card?: Card) => {
+        card && this.refetch$.next();
+      });
   }
 }

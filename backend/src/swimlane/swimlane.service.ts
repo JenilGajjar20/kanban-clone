@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Swimlane } from './entities/swimlane.entity';
 import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
+import { ReorderSwimlaneDto } from './dto/reorder-swimlane.dto';
 
 @Injectable()
 export class SwimlaneService {
@@ -22,6 +23,17 @@ export class SwimlaneService {
 
     await this.userService.isConnectedToBoard(userId, new_swimlane.boardId);
     return this.swimlaneRepository.save(new_swimlane);
+  }
+
+  async updateSwimlaneOrders(reorder: ReorderSwimlaneDto, userId: number) {
+    await this.userService.isConnectedToBoard(userId, reorder.boardId);
+
+    const promises = reorder.items.map((swimlane) => {
+      this.swimlaneRepository.update(swimlane.id, { order: swimlane.order });
+    });
+    await Promise.all(promises);
+
+    return true;
   }
 
   async hasAccessToSwimlane(swimlaneId: number, userId: number) {

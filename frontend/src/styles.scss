@@ -38,3 +38,15 @@ form {
     width: 100%;
   }
 }
+.button-group {
+  display: flex;
+  gap: 16px;
+}
+.cdk-drag-preview {
+  padding: 24px 24px 32px;
+  background-color: white;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}

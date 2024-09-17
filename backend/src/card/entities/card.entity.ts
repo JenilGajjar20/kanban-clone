@@ -22,7 +22,7 @@ export class Card {
   @Column()
   order: number;
 
-  @Column()
+  @Column({ nullable: true })
   assigneId: number;
 
   @ManyToOne(() => User, (user) => user.cards)

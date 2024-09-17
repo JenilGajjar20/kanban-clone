@@ -3,6 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { Board, CreateBoard } from '../models/board.model';
 import { Observable } from 'rxjs';
 
+export interface ReorderSwimlaneDto {
+  boardId: number;
+  items: ReorderSwimlaneItemDto[];
+}
+export interface ReorderSwimlaneItemDto {
+  id: number;
+  order: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,6 +20,10 @@ export class BoardService {
 
   createBoard(createBoard: CreateBoard): Observable<Board> {
     return this.http.post<Board>('/api/board', createBoard);
+  }
+
+  updateSwimlaneOrder(reorder: ReorderSwimlaneDto): Observable<void> {
+    return this.http.put<void>('/api/swimlane/update-order', reorder);
   }
 
   updateBoard(id: number, createBoard: CreateBoard): Observable<Board> {

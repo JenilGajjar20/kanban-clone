@@ -1,0 +1,25 @@
+<form [formGroup]="addCardForm">
+  <h3>{{ data.card?.id ? "Edit" : "Add" }} Card</h3>
+  <mat-form-field class="example-full-width">
+    <mat-label>Title</mat-label>
+    <input type="text" matInput formControlName="name" placeholder="My Card" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Content</mat-label>
+    <textarea
+      matInput
+      formControlName="content"
+      placeholder="content..."
+    ></textarea>
+  </mat-form-field>
+
+  <div class="button-group">
+    <button (click)="createEditCard()" mat-flat-button color="primary">
+      {{ data.card?.id ? "Edit" : "Add" }}
+    </button>
+    <button (click)="closeCard()" mat-flat-button color="secondary">
+      Close
+    </button>
+  </div>
+</form>
