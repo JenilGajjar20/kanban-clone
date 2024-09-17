@@ -1,0 +1,40 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f7f7f7;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto auto;
+  width: 400px;
+  background-color: white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 24px 24px 32px;
+
+  h3 {
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  p {
+    margin-top: 12px;
+  }
+}
+
+form {
+  mat-form-field,
+  input,
+  button {
+    width: 100%;
+  }
+}

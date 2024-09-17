@@ -1,0 +1,51 @@
+<form class="auth-form" [formGroup]="registerForm">
+  <h3>Register</h3>
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      matInput
+      formControlName="email"
+      placeholder="example@gmail.com"
+    />
+
+    @if(registerForm.controls.email.hasError('email') &&
+    !registerForm.controls.email.hasError('required')){
+    <mat-error>Please enter a valid email address</mat-error>
+    } @if(registerForm.controls.email.hasError('required')){
+    <mat-error>Email is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>FirstName</mat-label>
+    <input type="text" matInput formControlName="firstName" />
+
+    @if(!registerForm.controls.firstName.hasError('required')){
+    <mat-error>Please enter a valid first name</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>LastName</mat-label>
+    <input type="text" matInput formControlName="lastName" />
+
+    @if(!registerForm.controls.lastName.hasError('required')){
+    <mat-error>Please enter a valid last name</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput formControlName="password" />
+
+    @if(!registerForm.controls.password.hasError('required')){
+    <mat-error>Please enter a valid last name</mat-error>
+    } @if(!registerForm.controls.password.hasError('minLength')){
+    <mat-error>Min length is 8 characters</mat-error>
+    }
+  </mat-form-field>
+
+  <button (click)="register()" mat-flat-button color="primary">Register</button>
+  <p>Already have an account? <a [routerLink]="['/login']"> Login </a></p>
+</form>

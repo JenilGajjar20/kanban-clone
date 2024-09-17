@@ -1,0 +1,68 @@
+<div>
+  <a
+    [routerLink]="['/boards']"
+    routerLinkActive="router-link-active"
+    mat-flat-button
+    color="secondary"
+  >
+    Go Back
+  </a>
+</div>
+
+<h2>{{ board()?.name }}</h2>
+
+<div
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="onSwimlaneChange($event)"
+  class="swimlane-wrapper"
+>
+  @for(swimlane_card of board()?.swimlanes; track swimlane_card){
+  <div class="swimlane" cdkDrag>
+    <div class="swimlane-header">
+      <h4>{{ swimlane_card.name }}</h4>
+      <button
+        (click)="deleteSwimlane(swimlane_card)"
+        class="delete_btn"
+        color="secondary"
+        mat-button
+      >
+        Bin
+      </button>
+    </div>
+    <div class="swimlane-inner">
+      <div>
+        <div>
+          @for(card of swimlane_card.cards; track card){
+          <div>{{ card }}</div>
+          }
+          <button color="secondary" mat-button>Add Card</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <div class="swimlane">
+    <h4>Add Swimlane</h4>
+    <div class="swimlane-inner add-swimlane-form">
+      <form [formGroup]="swimlaneForm" (keyup.enter)="addSwimlane()">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="name"
+            placeholder="Add a Todo"
+          />
+
+          @if(!swimlaneForm.controls.name.hasError('required')){
+          <mat-error>Please enter the valid name</mat-error>
+          }
+        </mat-form-field>
+      </form>
+      <!-- <br /> -->
+      <!-- <button color="primary" class="add_swimlane" mat-flat-button>Add</button> -->
+    </div>
+  </div>
+</div>

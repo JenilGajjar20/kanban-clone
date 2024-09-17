@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  margin: 40px;
+
+  h2 {
+    margin-top: 20px;
+  }
+
+  .swimlane-wrapper {
+    overflow: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0 -16px;
+    padding: 0 16px 20px;
+    gap: 24px;
+
+    h4 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .swimlane {
+      width: 240px;
+      flex-shrink: 0;
+
+      &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        h4 {
+          margin: 0;
+        }
+
+        .delete_btn {
+          width: 50px;
+          padding: 4px;
+        }
+      }
+
+      &-inner {
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 4px;
+      }
+
+      .add-swimlane-form {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+      }
+
+      mat-form-field,
+      input,
+      button {
+        width: 100%;
+      }
+
+      .add_swimlane {
+        position: absolute;
+        width: fit-content;
+        right: 28px;
+        bottom: 52px;
+      }
+    }
+  }
+}
