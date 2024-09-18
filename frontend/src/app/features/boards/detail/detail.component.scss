@@ -1,82 +1,87 @@
-:host {
-  display: block;
-  margin: 40px;
+@use "typography.scss" as t;
+@use "variables.scss" as v;
 
-  h2 {
-    margin-top: 20px;
+:host {
+  @apply flex flex-col m-4 h-full;
+
+  .kb-board-header {
+    @apply flex items-center mt-5 mb-10 pb-5 gap-8;
+    border-bottom: 1px solid v.$border_color;
+
+    &__title {
+      @apply m-0;
+      color: v.$gray;
+    }
   }
 
   .swimlane-wrapper {
-    overflow: auto;
-    display: flex;
-    flex-wrap: nowrap;
+    @apply flex-grow overflow-auto flex flex-nowrap gap-6 h-full;
     margin: 0 -16px;
     padding: 0 16px 20px;
-    gap: 24px;
 
     h4 {
-      font-size: 20px;
-      font-weight: bold;
+      @apply text-xl font-bold;
     }
 
     .swimlane {
-      width: 240px;
-      flex-shrink: 0;
+      @apply w-60 flex-shrink-0 h-full;
+
+      &:hover .btn_icons {
+        @apply block;
+      }
 
       &-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 16px;
+        @apply flex items-center justify-between mb-4 sticky top-0 px-0.5 -mx-0.5;
+        background-color: v.$background_color;
+        &__icons {
+          @apply flex items-center gap-3;
 
-        h4 {
-          margin: 0;
+          .btn_icons {
+            @apply hidden border-none outline-none bg-transparent rounded cursor-pointer duration-150 hover:scale-125;
+          }
+
+          .delete_btn:hover {
+            @apply text-red-500;
+          }
+
+          .edit_btn:hover {
+            @apply text-blue-500;
+          }
         }
 
-        .delete_btn {
-          width: 50px;
-          padding: 4px;
+        h4 {
+          @apply m-0;
         }
       }
 
       &-inner {
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        border-radius: 4px;
+        @apply bg-white shadow-md p-5 rounded;
         &__dragzone {
-          min-height: 50px;
+          @apply min-h-12;
         }
       }
 
       &-card {
-        margin-bottom: 16px;
-        background-color: #eceaea;
-        padding: 16px;
-        border-radius: 4px;
-        cursor: pointer;
+        @apply mb-4 p-4 rounded cursor-pointer border-none outline-none bg-gray-200;
       }
 
       .add-swimlane-form {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: fit-content;
+        @apply relative flex items-center justify-center w-fit;
       }
 
       mat-form-field,
       input,
       button {
-        width: 100%;
+        @apply w-full;
       }
 
-      .add_swimlane {
-        position: absolute;
-        width: fit-content;
-        right: 28px;
-        bottom: 52px;
-      }
+      // .add_swimlane {
+      //   @apply absolute w-fit right-7 bottom-14;
+      // }
     }
   }
+}
+
+.kb-link {
+  @include t.kb-link;
 }

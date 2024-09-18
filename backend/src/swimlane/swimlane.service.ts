@@ -66,7 +66,6 @@ export class SwimlaneService {
 
     return this.swimlaneRepository.update(id, {
       name: updateSwimlaneDto.name,
-      order: updateSwimlaneDto.order,
     });
   }
 

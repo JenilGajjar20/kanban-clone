@@ -23,4 +23,8 @@ export class CardService {
   updateCard(id: number, createCard: Partial<Card>): Observable<Card> {
     return this.http.patch<Card>(`/api/card/${id}`, createCard);
   }
+
+  deleteCard(cardId: number): Observable<void> {
+    return this.http.delete<void>(`/api/card/${cardId}`);
+  }
 }

@@ -1,0 +1,25 @@
+@use "variables.scss" as v;
+
+.kb-dialog {
+  @apply w-full;
+  &__header {
+    @apply flex justify-between items-center px-4 py-2.5;
+    border-bottom: 1px solid v.$border_color;
+    &--title {
+      @apply text-xl font-bold m-0;
+    }
+    &--content {
+      @apply p-4;
+      p {
+        @apply font-medium text-xl mb-0;
+      }
+    }
+  }
+
+  .button-group {
+    @apply p-4 pt-0;
+    button {
+      @apply w-full;
+    }
+  }
+}

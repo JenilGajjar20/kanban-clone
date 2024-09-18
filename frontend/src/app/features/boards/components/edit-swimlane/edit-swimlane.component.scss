@@ -1,0 +1,16 @@
+:host {
+  @apply block p-6;
+
+  .edit-swimlane__form {
+    &--header {
+      @apply flex items-center justify-between mb-3;
+
+      h2 {
+        @apply mb-0;
+      }
+      button {
+        @apply w-fit text-red-500 hover:text-red-700;
+      }
+    }
+  }
+}

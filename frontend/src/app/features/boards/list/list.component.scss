@@ -1,22 +1,16 @@
 :host {
-  display: block;
-  margin: 30px;
+  @apply m-7;
 
   .board-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    flex-basis: 100%;
-    margin: 0 -10px;
-    height: 100%;
+    @apply grid grid-cols-4 gap-6;
 
     .board {
       all: unset;
       box-sizing: border-box;
-      width: calc(25% - 20px);
-      padding: 10px;
-      flex-grow: 1;
-      height: 100%;
-      display: flex;
+      // width: calc(25% - 20px);
+      // padding: 10px;
+      // flex-grow: 1;
+      // display: flex;
       cursor: pointer;
 
       mat-card {

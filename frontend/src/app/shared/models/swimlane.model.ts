@@ -15,3 +15,8 @@ export interface CreateSwimlane {
   order: number;
   boardId: number;
 }
+
+export interface UpdateSwimlane {
+  id: number;
+  name: string;
+}

@@ -6,8 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddBoardComponent } from '../components/add-board/add-board.component';
-import { Subject, switchMap } from 'rxjs';
+import { filter, mergeMap, Subject, switchMap } from 'rxjs';
 import { Board } from '../../../shared/models/board.model';
+import { ConfirmComponent } from '../../../ui/confirm/confirm.component';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +18,7 @@ import { Board } from '../../../shared/models/board.model';
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
-  private readonly dialog = inject(MatDialog);
+  private readonly matDialog = inject(MatDialog);
   private readonly boardService = inject(BoardService);
   refetch$ = new Subject<void>();
   boards = toSignal(
@@ -30,8 +31,10 @@ export class ListComponent implements OnInit {
     this.refetch$.next();
   }
 
-  openNewBoardFlow(board?: Board) {
-    this.dialog
+  openNewBoardFlow($event: Event, board?: Board) {
+    $event.stopImmediatePropagation();
+    $event.preventDefault();
+    this.matDialog
       .open(AddBoardComponent, { width: '400px', data: { board } })
       .afterClosed()
       .subscribe((board: Board) => {
@@ -39,9 +42,22 @@ export class ListComponent implements OnInit {
       });
   }
 
-  deleteBoard(board: Board) {
-    this.boardService.deleteBoard(board.id).subscribe(() => {
-      this.refetch$.next();
-    });
+  deleteBoard($event: Event, board: Board) {
+    $event.stopImmediatePropagation();
+    $event.preventDefault();
+
+    this.matDialog
+      .open(ConfirmComponent, {
+        data: {
+          title: 'Delete Board',
+          message: 'Are you sure you want to delete this board?',
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter((result) => result),
+        mergeMap(() => this.boardService.deleteBoard(board.id))
+      )
+      .subscribe(() => this.refetch$.next());
   }
 }

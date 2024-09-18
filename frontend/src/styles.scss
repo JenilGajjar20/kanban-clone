@@ -1,12 +1,18 @@
+@use "variables.scss" as v;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
-  height: 100%;
+  @apply h-full;
 }
 
 body {
-  margin: 0;
+  @apply m-0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #f7f7f7;
+  background-color: v.$background_color;
 }
 
 .auth-form {
@@ -35,13 +41,14 @@ form {
   mat-form-field,
   input,
   button {
-    width: 100%;
+    @apply w-full;
   }
 }
+
 .button-group {
-  display: flex;
-  gap: 16px;
+  @apply flex gap-4;
 }
+
 .cdk-drag-preview {
   padding: 24px 24px 32px;
   background-color: white;

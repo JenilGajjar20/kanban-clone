@@ -58,35 +58,21 @@ export class CardService {
     return `This action returns a #${id} card`;
   }
 
-  update(id: number, userId: number, updateCardDto: UpdateCardDto) {
-    return this.cardRepository.update(
-      {
-        id,
-        swimlane: {
-          board: {
-            users: {
-              id: userId,
-            },
-          },
-        },
-      },
-      {
-        name: updateCardDto.name,
-        content: updateCardDto.content,
-      },
+  async update(id: number, userId: number, updateCardDto: UpdateCardDto) {
+    await this.userService.isConnectedToSwimlane(
+      userId,
+      updateCardDto.swimlaneId,
     );
+
+    return this.cardRepository.update(id, {
+      name: updateCardDto.name,
+      content: updateCardDto.content,
+    });
   }
 
-  remove(id: number, userId: number) {
-    return this.cardRepository.delete({
-      id,
-      swimlane: {
-        board: {
-          users: {
-            id: userId,
-          },
-        },
-      },
-    });
+  async remove(id: number, userId: number) {
+    const card = await this.cardRepository.findOneBy({ id });
+    await this.userService.isConnectedToSwimlane(userId, card.swimlaneId);
+    return this.cardRepository.delete(id);
   }
 }

@@ -1,15 +1,9 @@
-<div>
-  <a
-    [routerLink]="['/boards']"
-    routerLinkActive="router-link-active"
-    mat-flat-button
-    color="secondary"
-  >
-    Go Back
-  </a>
+<div class="kb-board-header">
+  <button mat-mini-fab [routerLink]="['/boards']" color="secondary">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <h2 class="kb-board-header__title">{{ board()?.name }}</h2>
 </div>
-
-<h2>{{ board()?.name }}</h2>
 
 <div
   cdkDropListGroup
@@ -22,14 +16,11 @@
   <div class="swimlane" cdkDrag>
     <div class="swimlane-header" cdkDragHandle>
       <h4>{{ swimlane.name }}</h4>
-      <button
-        (click)="deleteSwimlane(swimlane)"
-        class="delete_btn"
-        color="secondary"
-        mat-button
-      >
-        Bin
-      </button>
+      <div class="swimlane-header__icons">
+        <button (click)="editSwimlane(swimlane)" class="btn_icons edit_btn">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
     </div>
     <div class="swimlane-inner">
       <div
@@ -40,13 +31,17 @@
         (cdkDropListDropped)="onCardChange($event, swimlane)"
       >
         @for(card of swimlane.cards; track card.id){
-        <div class="swimlane-card" cdkDrag>
+        <button
+          class="swimlane-card"
+          (click)="addEditCard(swimlane, card)"
+          cdkDrag
+        >
           {{ card.name }}
-        </div>
+        </button>
         }
       </div>
     </div>
-    <button (click)="addCard(swimlane)" color="secondary" mat-button>
+    <button (click)="addEditCard(swimlane)" color="secondary" mat-button>
       Add Card
     </button>
   </div>

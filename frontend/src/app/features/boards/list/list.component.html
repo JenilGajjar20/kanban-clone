@@ -8,14 +8,14 @@
         <mat-card-title>{{ board.name }}</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-        <button (click)="openNewBoardFlow(board)" mat-button>📝</button>
-        <button (click)="deleteBoard(board)" mat-button>🗑️</button>
+        <button (click)="openNewBoardFlow($event, board)" mat-button>📝</button>
+        <button (click)="deleteBoard($event, board)" mat-button>🗑️</button>
       </mat-card-actions>
     </mat-card>
   </a>
   }
 </div>
 
-<button mat-flat-button color="primary" (click)="openNewBoardFlow()">
+<button mat-flat-button color="primary" (click)="openNewBoardFlow($event)">
   Add a Board
 </button>

@@ -22,6 +22,9 @@ import { Card } from '../../../shared/models/card.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCardComponent } from '../components/add-card/add-card.component';
 import { CardService } from '../../../shared/services/card.service';
+import { MatIconModule } from '@angular/material/icon';
+import { ConfirmComponent } from '../../../ui/confirm/confirm.component';
+import { EditSwimlaneComponent } from '../components/edit-swimlane/edit-swimlane.component';
 
 @Component({
   selector: 'app-detail',
@@ -30,6 +33,7 @@ import { CardService } from '../../../shared/services/card.service';
     MatButtonModule,
     RouterModule,
     DragDropModule,
+    MatIconModule,
     ReactiveFormsModule,
     MatInputModule,
   ],
@@ -65,10 +69,6 @@ export class DetailComponent implements OnInit {
     name: this.fb.control('', [Validators.required]),
   });
 
-  cardForm = this.fb.group({
-    name: this.fb.control('', [Validators.required]),
-  });
-
   addSwimlane() {
     if (this.swimlaneForm.invalid) {
       return;
@@ -89,10 +89,16 @@ export class DetailComponent implements OnInit {
       });
   }
 
-  deleteSwimlane(swimlane: Swimlane) {
-    this.swimlaneService.deleteSwimlane(swimlane.id).subscribe(() => {
-      this.refetch$.next();
-    });
+  editSwimlane(swimlane: Swimlane) {
+    this.matDialog
+      .open(EditSwimlaneComponent, {
+        width: '600px',
+        data: { swimlane },
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.refetch$.next();
+      });
   }
 
   onSwimlaneChange($event: CdkDragDrop<any>): void {
@@ -117,8 +123,6 @@ export class DetailComponent implements OnInit {
       .subscribe(() => {
         this.refetch$.next();
       });
-
-    console.log('==>', this.board()?.swimlanes);
   }
 
   onCardChange($event: CdkDragDrop<any>, swimlane: Swimlane) {
@@ -160,7 +164,7 @@ export class DetailComponent implements OnInit {
       });
   }
 
-  addCard(swimlane: Swimlane, card?: Card) {
+  addEditCard(swimlane: Swimlane, card?: Card) {
     this.matDialog
       .open(AddCardComponent, {
         width: '600px',

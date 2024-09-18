@@ -1,0 +1,10 @@
+@use "variables.scss" as v;
+
+@mixin kb-link {
+  color: v.$primary;
+  @apply no-underline cursor-pointer font-light hover:underline hover:font-medium;
+
+  &.active {
+    @apply font-bold;
+  }
+}
