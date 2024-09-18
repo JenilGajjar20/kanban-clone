@@ -1,0 +1,21 @@
+:host {
+  @apply block py-6;
+
+  .home-section {
+    &__hero {
+      @apply flex items-center justify-around gap-4 py-10;
+      &--img {
+        @apply w-1/3;
+        img {
+          @apply h-96 w-96 rounded-full;
+        }
+      }
+      &--content {
+        @apply text-2xl w-2/3;
+      }
+    }
+    &__about {
+      // @apply
+    }
+  }
+}

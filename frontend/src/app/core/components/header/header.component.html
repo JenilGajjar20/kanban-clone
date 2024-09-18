@@ -1,13 +1,16 @@
 <nav>
-  <ul>
-    <li>Logo</li>
-    <li class="menu-items">
-      @if(isLoggedIn()){
-      <a [routerLinkActive]="'active'" routerLink="/boards">Boards</a>
-      <a (click)="signOut()">SignOut</a>
-      } @else {
-      <a [routerLinkActive]="'active'" routerLink="/register">Register</a>
-      }
-    </li>
-  </ul>
+  <div class="nav">
+    <h1>Task<span>Flow</span></h1>
+    <ul>
+      <li class="menu-items">
+        <a [routerLinkActive]="'active'" routerLink="/home">Home</a>
+        @if(isLoggedIn()){
+        <a [routerLinkActive]="'active'" routerLink="/boards">Boards</a>
+        <a (click)="signOut()">SignOut</a>
+        } @else {
+        <a [routerLinkActive]="'active'" routerLink="/register">Register</a>
+        }
+      </li>
+    </ul>
+  </div>
 </nav>

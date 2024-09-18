@@ -2,16 +2,28 @@
 @use "typography.scss" as t;
 
 nav {
-  @apply bg-white shadow-md h-16 leading-[3.75rem] px-3;
+  @apply bg-white shadow-md px-3;
 
-  ul {
-    @apply flex list-none m-0 p-0 justify-between;
+  .nav {
+    @apply flex items-center justify-between container mx-auto py-4;
+    h1 {
+      @apply mb-0 text-3xl;
+      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    }
+    ul {
+      @apply flex list-none m-0 justify-between;
 
-    .menu-items {
-      @apply flex items-center gap-4;
+      li {
+        img {
+          @apply h-20 w-20 rounded-full;
+        }
+      }
+      .menu-items {
+        @apply flex items-center gap-4 text-base;
 
-      a {
-        @include t.kb-link;
+        a {
+          @include t.kb-link;
+        }
       }
     }
   }
