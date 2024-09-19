@@ -2,7 +2,7 @@
 @use "typography.scss" as t;
 
 nav {
-  @apply bg-white shadow-md px-3;
+  @apply bg-white shadow-md;
 
   .nav {
     @apply flex items-center justify-between container mx-auto py-4;
@@ -19,7 +19,7 @@ nav {
         }
       }
       .menu-items {
-        @apply flex items-center gap-4 text-base;
+        @apply flex items-center gap-2 lg:gap-4 text-base;
 
         a {
           @include t.kb-link;
